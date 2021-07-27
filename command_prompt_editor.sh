@@ -12,9 +12,10 @@ if [ "$start_confirm" != "y" ] && [ "$start_confirm" != "Y" ]; then
 echo "Quiting..."; exit
 else
 
-
 clear
 echo "
 --- Command Prompt Editor ---"
+echo "The current command prompt is:"
+echo -e "$PS1"
 
 fi
