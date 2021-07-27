@@ -1,0 +1,33 @@
+You can edit/delete this file all you want, this is just here to make life easier for anyone wanting to read/contribute to the code.
+-----
+This is meant to be a list of all possible multi letter codes that can be used in the editor.
+
+Editing codes:
+rm - removes last character/item
+qqqq - force quit: stops everything and exits. DOES NOT SAVE YOUR PROGRESS!
+wr - writes/enables your custom command prompt
+sv - exports your custom command propmt as a .txt file if you would want to share it.
+hh - brings up a help page
+
+Item codes:
+1a -\a- Makes computer beep when printed. May not work on all systems.
+1b -\d- Current date. Format: Weekday Month Date (ex: Mon January 3)
+1c -\h- Hostname of the machine, with the trailing domain name removed.
+1d -\H- Full hostname.
+1e -\j- Number of jobs being run by the shell
+1f -\l- Name of the terminal device 
+1g -\s- Name of the shell program
+1h -\t- Time in 24 hour format, HH:MM:SS
+1i -\T- Time in 12 hour format, HH:MM:SS
+1j -\@- Time in 12 hour AM/PM format
+1k -\A- Time in 24 hour format, HH:MM
+1l -\u- Username of the current user
+1m -\v- The version of bash (x.xx)
+1n -\V- The release of bash (x.xx.x)
+1o -\w- The full name of the current directory (ex: ~/Documents/School/Project)
+1p -\W- Th last part of the name of the current directory (ex: /Project)
+1q -\!- The history number of this command
+1r -\#- The number of commands run in this shell session.
+1s -\$- Displays a $ if logged in as user, instead displays a # if logged in as root
+
+Color codes:
