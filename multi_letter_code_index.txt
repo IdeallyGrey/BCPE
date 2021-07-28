@@ -7,7 +7,6 @@ rm - removes last character/item
 q! - force quit: stops everything and exits. DOES NOT SAVE YOUR PROGRESS!
 wr - writes/enables your custom command prompt
 ex - exports your custom command propmt as a .txt file if you would want to share it.
-hh - brings up a help page
 
 Item codes:
 1a -\a- Makes computer beep when printed. May not work on all systems.
@@ -34,7 +33,7 @@ Color codes:
 2a -\033[0;30m- Black
 2b -\033[0;31m- Red
 2c -\033[0;32m- Green
-2d -\033[0;33m- Brown-Orange
+2d -\033[0;33m- Brown
 2e -\033[0;34m- Blue
 2f -\033[0;35m- Purple
 2g -\033[0;36m- Cyan
