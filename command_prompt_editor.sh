@@ -243,7 +243,9 @@ case "$input_selection" in
 # Commands
         q!)	echo "Program has been manually terminated."; exit
 		;;
-        rm)	
+        rm)	size_of_easy_edit_form=$(($size_of_easy_edit_form-1))
+		easy_edit_form=$(echo $easy_edit_form | cut -d '%' -f 1-$size_of_easy_edit_form)
+		size_of_easy_edit_form=$(($size_of_easy_edit_form-1)) # Here, the size is reduced again, but the loss is made of for in the 'if' right bellowthis 'case'
 		;;
         wr)	main_seg_active=0
 		add_seperator=false
@@ -348,6 +350,7 @@ case "$input_selection" in
 esac
 if [ "$add_seperator" == "true" ]; then
 easy_edit_form+="%"
+size_of_easy_edit_form=$(($size_of_easy_edit_form+1))
 fi
 done # end of the main while loop
 
