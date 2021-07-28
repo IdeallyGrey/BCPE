@@ -61,8 +61,8 @@ case "$color" in
                 terminate_due_to_error
                 ;;
 esac
-echo var4cutting; echo $var_for_cutting; echo sizeOitems; echo $size_of_easy_edit_form; echo easyeditform; echo $easy_edit_form
-while (( "$var_for_cutting" -le "$size_of_easy_edit_form" )); do
+
+while [[ "$var_for_cutting" -le "$size_of_easy_edit_form" ]]; do
 check_this_out=$(echo $easy_edit_form | cut -d '%' -f $var_for_cutting)
 case "$check_this_out" in
 # Items
@@ -115,6 +115,7 @@ esac
 var_for_cutting=$(($var_for_cutting+1))
 done
 full_form+="\[\033[0m\] "
+return
 }	
 
 
@@ -160,7 +161,7 @@ case "$color" in
                 terminate_due_to_error
                 ;;
 esac
-while (( "$var_for_cutting" -le "$size_of_easy_edit_form" )); do
+while [[ "$var_for_cutting" -le "$size_of_easy_edit_form" ]]; do
 check_this_out=$(echo $easy_edit_form | cut -d '%' -f $var_for_cutting)
 case "$check_this_out" in
 # Items
@@ -210,7 +211,9 @@ esac
 var_for_cutting=$(($var_for_cutting+1))
 done
 display_form+="\[\033[0m\] sudo apt-get update"
+return
 }
+
 
 # Starts from here
 echo "Running this editor will clear your shell, do you want to continue? (y/n)"
@@ -236,7 +239,7 @@ echo ""
 echo "'q!' to force quit. 'wr' to write/enable custom prompt."
 echo "'rm' to remove last char/item. 'ex' to export as .txt to share your design."
 echo ""
-echo "easy edit form:"; echo $easy_edit_form; echo "size of easy edit form"; echo $size_of_easy_edit_form
+echo "easy edit form:"; echo $easy_edit_form; echo "size of easy edit form"; echo $size_of_easy_edit_form; echo "full form"; echo $full_form
 echo "Enter a single character, or a two character command/item: "
 read input_selection
 case "$input_selection" in
