@@ -24,7 +24,7 @@ update_full_form () {
 echo "Updating full form."
 var_for_cutting=1
 full_form=""
-case "color" in
+case "$color" in
 	White)	full_form+="\[\033[1;37m\]"
 		;;
 	Black)	full_form+="\[\033[0;30m\]"
@@ -61,7 +61,8 @@ case "color" in
                 terminate_due_to_error
                 ;;
 esac
-while [ "$var_for_cutting" -le "$number_of_items_in_easy_edit_form" ]; do
+echo var4cutting; echo $var_for_cutting; echo sizeOitems; echo $size_of_easy_edit_form; echo easyeditform; echo $easy_edit_form
+while (( "$var_for_cutting" -le "$size_of_easy_edit_form" )); do
 check_this_out=$(echo $easy_edit_form | cut -d '%' -f $var_for_cutting)
 case "$check_this_out" in
 # Items
@@ -122,7 +123,7 @@ echo "Updating display form."
 var_for_cutting=1
 display_form=""
 extra_message=""
-case "color" in
+case "$color" in
         White)  display_form+="\[\033[1;37m\]"
                 ;;
         Black)  display_form+="\[\033[0;30m\]"
@@ -159,7 +160,7 @@ case "color" in
                 terminate_due_to_error
                 ;;
 esac
-while [ "$var_for_cutting" -le "$number_of_items_in_easy_edit_form" ]; do
+while (( "$var_for_cutting" -le "$size_of_easy_edit_form" )); do
 check_this_out=$(echo $easy_edit_form | cut -d '%' -f $var_for_cutting)
 case "$check_this_out" in
 # Items
@@ -235,23 +236,33 @@ echo ""
 echo "'q!' to force quit. 'wr' to write/enable custom prompt."
 echo "'rm' to remove last char/item. 'ex' to export as .txt to share your design."
 echo ""
-read -p "Enter a single character, or a two character command/item > "
+echo "easy edit form:"; echo $easy_edit_form; echo "size of easy edit form"; echo $size_of_easy_edit_form
+echo "Enter a single character, or a two character command/item: "
+read input_selection
 case "$input_selection" in
         %) 	echo "I'm sorry, you cannot use a '%' sign. Any other character is allowed!"
 		add_seperator=false
+		sleep 3
 		;;
 # Commands
         q!)	echo "Program has been manually terminated."; exit
 		;;
-        rm)	size_of_easy_edit_form=$(($size_of_easy_edit_form-1))
+        rm)	if ((size_of_easy_edit_form>0)); then
+		size_of_easy_edit_form=$(($size_of_easy_edit_form-1))
 		easy_edit_form=$(echo $easy_edit_form | cut -d '%' -f 1-$size_of_easy_edit_form)
 		size_of_easy_edit_form=$(($size_of_easy_edit_form-1)) # Here, the size is reduced again, but the loss is made of for in the 'if' right bellowthis 'case'
+		else
+		echo "There is nothing to delete!"
+		add_seperator=false
+		sleep 3
+		fi
 		;;
         wr)	main_seg_active=0
 		add_seperator=false
 		;;
-        ex)	echo "Sorry! Exporting not yet supported."
+        ex)	echo "Sorry! Exporting is not yet supported."
 		add_seperator=false
+		sleep 3
 		;;
 # Items
         1a)	easy_edit_form+=$input_selection
@@ -346,6 +357,13 @@ case "$input_selection" in
 		;;
 	*)      echo "Error! Remember, characters must be entered one at a time! / Error! That is not a valid multi-char code!"
 		add_seperator=false
+		sleep 1
+		echo .
+		sleep 1
+		echo .
+		sleep 1
+		echo .
+		sleep 1
 		;;
 esac
 if [ "$add_seperator" == "true" ]; then
