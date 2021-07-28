@@ -239,7 +239,7 @@ echo ""
 echo "'q!' to force quit. 'wr' to write/enable custom prompt."
 echo "'rm' to remove last char/item. 'ex' to export as .txt to share your design."
 echo ""
-echo "easy edit form:"; echo $easy_edit_form; echo "size of easy edit form"; echo $size_of_easy_edit_form; echo "full form"; echo $full_form
+
 echo "Enter a single character, or a two character command/item: "
 read input_selection
 case "$input_selection" in
