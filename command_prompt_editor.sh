@@ -265,7 +265,10 @@ echo $extra_message
 echo ""
 echo "Select a color:"
 echo -e "Default - 1     \033[1;37mBold White - 2     \033[0;30mBlack - 3     \033[0;31mRed - 4"
-
+echo -e "\033[0;32mGreen - 5     \033[0;33mBrown - 6     \033[0;34mBlue - 7     \033[0;35mPurple - 8"
+echo -e ""
+echo -e ""
+echo -e ""
 full_form=""
 case "$color" in
         BoldWhite)  full_form+="\[\033[1;37m\]"
