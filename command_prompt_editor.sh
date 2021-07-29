@@ -376,5 +376,16 @@ done
 
 # The actual saving/enabling takes place here:
 echo "Saving..."
+bashrc=$(less .bashrc)
+bashrc+="
+# ---Added by the custom command prompt editor---"
+bashrc+="
+PS1='$full_form'
+export PS1"
+bashrc+="
+# ---End added by the custom command prompt editor---"
+mv /home/$USER/.bashrc /home/$USER/.bashrc.bak
+touch /home/$USER/.bashrc
+echo "$bashrc" | cat > /home/$USER/.bashrc
 
 fi # end of the start confirmation if
