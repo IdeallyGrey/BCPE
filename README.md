@@ -1,8 +1,9 @@
-# PromptEditor
+# Overview
 
+# Installation
 
-
-
+# Instructions
+Run the editor via "bcpe". In the editor you may run commands, add characters to your design, or add items to your design. When adding characters (|, #, \*, a, 7, etc..) to the design in the editor, you must enter one character at a time. When adding items, enter the two character code for the coresponding item. The same goes for commands. For a " " (space) enter 'sp'. 
 
 # To Undo Changes
 (NOTE: You must be logged into the same user that you used the editor with.)
