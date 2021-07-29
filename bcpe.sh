@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# An editor to create a custom command prompt.
+# An editor to design custom command prompts.
+# Quick overview of the code: Since there are certain ASCII codes that only work in the command prompt, and since some 'items' have different lengths of characters, three main string variables exist. One is used to store the design while in the editor (easy_edit_form), another one to display your design in the editor (display_form), and finally the actual string that is saved (full_form). A design is saved by adding a few lines to the end of your .bashrc file. Since a .bashrc file is rather useful, it is backed up prior to saving in case something goes wrong, and is saved as '.bashrc_backup_made_by_bcpe'.
 
-# All variables used
+# Some variables
 easy_edit_form=""
 color="White"
 display_form=""
@@ -22,7 +23,7 @@ exit 1
 }
 
 
-
+# Displayed several times at the top of the screen
 header () {
 clear
 echo "
@@ -37,12 +38,14 @@ echo ""
 }
 
 
+# Its a very basic loading animation.
 sleep_dot () {
 echo "."
 sleep 1
 }
 
 
+# Updates the variable 'full_form' drawing info from the variable 'easy_edit_form'
 update_full_form () {
 echo "Updating full form."
 var_for_cutting=1
@@ -92,7 +95,7 @@ case "$check_this_out" in
 	?)	full_form+=$check_this_out
 		;;
 # Something that should not be there
-	*)	error_reason="An error was found in the sting used to store your custom command line prior to saving it."
+	*)	error_reason="Something was found in the sting used to store your custom command line prior to saving it that definetly should not be there."
 		terminate_due_to_error
 		;;
 esac
@@ -103,6 +106,7 @@ done
 
 
 
+# Updates the variable 'display_form' with info from variable 'easy_edit_form'
 update_display_form () {
 echo "Updating display form."
 var_for_cutting=1
@@ -174,8 +178,8 @@ sleep_dot
 sleep_dot
 sleep_dot
 begin_writing="no"
-while [ "$begin_writing" == "no" ]; do
-while [ "$main_seg_active" == 1 ]; do
+while [ "$begin_writing" == "no" ]; do # This while loop contains the editor and the color choosing, and exists in order to allow someone to return to the editor prior to saving.
+while [ "$main_seg_active" == 1 ]; do # This while loop contains the bulk of the editor.
 update_display_form
 add_seperator=true
 header
@@ -294,7 +298,7 @@ fi
 done # end of the main while loop
 
 
-# Saving/Enabling:
+# Here the color is choosen.
 update_display_form
 second_seg_active=1
 while [ "$second_seg_active" == 1 ]; do
@@ -356,7 +360,7 @@ if [ "$defaultselected" != "true" ]; then
 full_form+="\[\033[0m\] "
 fi
 confirm_seg_active=1
-while [ "$confirm_seg_active" == 1 ]; do
+while [ "$confirm_seg_active" == 1 ]; do # This while loop contain the writing confirmation.
 clear
 echo "
 --- Command Prompt Editor ---
