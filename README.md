@@ -1,4 +1,5 @@
 # Overview
+BCPE stands for Bash Command Prompt Editor. It's meant to be an easy way to spice up your command line, and potentally make it more useful. You can customise your design with 'items'. These include things like the current username, time, number of commands run, and more. You can also choose from 17 different colors.
 
 # Instructions
 Setup:
