@@ -23,6 +23,21 @@ exit 1
 
 
 
+header () {
+clear
+echo "
+--- Command Prompt Editor ---
+"
+echo ""
+echo "---"
+echo -e $display_form
+echo "---"
+echo $extra_message
+echo ""
+}
+
+
+
 update_full_form () {
 echo "Updating full form."
 var_for_cutting=1
@@ -78,7 +93,7 @@ case "$check_this_out" in
 esac
 var_for_cutting=$(($var_for_cutting+1))
 done
-return
+full_form+=" "
 }	
 
 
@@ -137,7 +152,6 @@ case "$check_this_out" in
 esac
 var_for_cutting=$(($var_for_cutting+1))
 done
-display_form+="\[\033[0m\] sudo apt-get update"
 return
 }
 
@@ -149,29 +163,44 @@ if [ "$start_confirm" != "y" ] && [ "$start_confirm" != "Y" ]; then
 echo "Quiting..."; exit
 else
 
+begin_writing="no"
+while [ "$begin_writing" == "no" ]; do
 while [ "$main_seg_active" == 1 ]; do
 update_display_form
 add_seperator=true
-clear
-echo "
---- Command Prompt Editor ---
-"
-echo ""
-echo "---"
-echo -e $display_form
-echo "---"
-echo $extra_message
-echo ""
+header
 echo "'q!' to force quit. 'wr' to write/enable custom prompt."
 echo "'rm' to remove last char/item. 'ex' to export as .txt to share your design."
+echo "Item codes:"
+echo "sp - Insert a 'space'."
+echo "1a - Makes computer beep when printed. May not work on all systems."
+echo "1b - Current date. Format: Weekday Month Date (ex: Mon January 3)"
+echo "1c - Hostname of the machine, with the trailing domain name removed."
+echo "1d - Full hostname."
+echo "1e - Number of jobs being run by the shell."
+echo "1f - Name of the terminal device."
+echo "1g - Name of the shell program."
+echo "1h - Time in 24 hour format, HH:MM:SS."
+echo "1i - Time in 12 hour format, HH:MM:SS."
+echo "1j - Time in 12 hour AM/PM format."
+echo "1k - Time in 24 hour format, HH:MM."
+echo "1l - Username of the current user."
+echo "1m - The version of bash in use (x.xx)."
+echo "1n - The release of bash in use (x.xx.x)."
+echo "1o - The full name of the current directory (ex: ~/Documents/School/Project)."
+echo "1p - The last part of the name of the current directory (ex: /Project)."
+echo "1q - The history number of this command."
+echo "1r - The number of commands run in this shell session."
+echo "1s - Displays a $ if logged in as user, instead displays a # if logged in as root."
 echo ""
-
 echo "Enter a single character, or a two character command/item: "
 read input_selection
 case "$input_selection" in
         %) 	echo "I'm sorry, you cannot use a '%' sign. Any other character is allowed!"
 		add_seperator=false
 		sleep 3
+		;;
+	sp)	easy_edit_form+=" "
 		;;
 # Commands
         q!)	echo "Program has been manually terminated."; exit
@@ -251,63 +280,101 @@ size_of_easy_edit_form=$(($size_of_easy_edit_form+1))
 fi
 done # end of the main while loop
 
+
 # Saving/Enabling:
 update_display_form
+second_seg_active=1
+while [ "$second_seg_active" == 1 ]; do
+header
+echo "Select a color:"
+echo -e "Default - 1     \033[1;37mBold White - 2     \033[0;30mBlack - 3     \033[0;31mRed - 4"
+echo -e "\033[0;32mGreen - 5     \033[0;33mBrown - 6     \033[0;34mBlue - 7     \033[0;35mPurple - 8"
+echo -e "\033[0;36mCyan - 9     \033[0;37mLight Grey - 10    \033[1;30mDark Grey - 11     \033[1;31mLight Red - 12"
+echo -e "\033[1;32mLight Green - 13     \033[1;33mYellow - 14     \033[1;34mLight Blue - 15     \033[1;35mLight Purple - 16"
+echo -e "\033[1;37mLight Cyan - 17\033[0;37m"
+echo "Enter corresponding number:"
+read color
+full_form=""
+defualtselected=false
+case "$color" in
+        1)	defaultselected=true; colour="Default"; second_seg_active=0
+		;;
+	2)  full_form+="\[\033[1;37m\]"; colour="Bold White"; second_seg_active=0
+                ;;
+        3)  full_form+="\[\033[0;30m\]"; colour="Black"; second_seg_active=0
+                ;;
+        4)    full_form+="\[\033[0;31m\]"; colour="Red"; second_seg_active=0
+                ;;
+        5)  full_form+="\[\033[0;32m\]"; colour="Green"; second_seg_active=0
+                ;;
+        6)  full_form+="\[\033[0;33m\]"; colour="Brown"; second_seg_active=0
+                ;;
+        7)   full_form+="\[\033[0;34m\]"; colour="Blue"; second_seg_active=0
+                ;;
+        8) full_form+="\[\033[0;35m\]"; colour="Purple"; second_seg_active=0
+                ;;
+        9)   full_form+="\[\033[0;36m\]"; colour="Cyan"; second_seg_active=0
+                ;;
+        10)  full_form+="\[\033[0;37m\]"; colour="Light Grey"; second_seg_active=0
+                         ;;
+        11)       full_form+="\[\033[1;30m\]"; colour="Dark Grey"; second_seg_active=0
+                         ;;
+        12)       full_form+="\[\033[1;31m\]"; colour="Light Red"; second_seg_active=0
+                         ;;
+        13) full_form+="\[\033[1;32m\]"; colour="Light Green"; second_seg_active=0
+                         ;;
+        14)  full_form+="\[\033[1;33m\]"; colour="Yellow"; second_seg_active=0
+                 ;;
+        15)  full_form+="\[\033[1;34m\]"; colour="Light Blue"; second_seg_active=0
+                         ;;
+        16)  full_form+="\[\033[1;35m\]"; colour="Light Purple"; second_seg_active=0
+                         ;;
+        17)  full_form+="\[\033[1;36m\]"; colour="Light Cyan"; second_seg_active=0
+                ;;
+        *)      echo "Sorry, $color was not an option."
+		sleep 3
+		;;
+esac
+done # End of color choosing 'while'
+update_full_form
+if [ "$defaultselected" != "true" ]; then
+full_form+="\[\033[0m\] "
+fi
+confirm_seg_active=1
+while [ "$confirm_seg_active" == 1 ]; do
 clear
 echo "
 --- Command Prompt Editor ---
 "
 echo ""
-echo "---"
-echo -e $display_form
-echo "---"
-echo $extra_message
-echo ""
-echo "Select a color:"
-echo -e "Default - 1     \033[1;37mBold White - 2     \033[0;30mBlack - 3     \033[0;31mRed - 4"
-echo -e "\033[0;32mGreen - 5     \033[0;33mBrown - 6     \033[0;34mBlue - 7     \033[0;35mPurple - 8"
-echo -e ""
-echo -e ""
-echo -e ""
-full_form=""
-case "$color" in
-        BoldWhite)  full_form+="\[\033[1;37m\]"
-                ;;
-        Black)  full_form+="\[\033[0;30m\]"
-                ;;
-        Red)    full_form+="\[\033[0;31m\]"
-                ;;
-        Green)  full_form+="\[\033[0;32m\]"
-                ;;
-        Brown)  full_form+="\[\033[0;33m\]"
-                ;;
-        Blue)   full_form+="\[\033[0;34m\]"
-                ;;
-        Purple) full_form+="\[\033[0;35m\]"
-                ;;
-        Cyan)   full_form+="\[\033[0;36m\]"
-                ;;
-        LightGrey)  full_form+="\[\033[0;37m\]"
-                         ;;
-        DarkGrey)       full_form+="\[\033[1;30m\]"
-                         ;;
-        LightRed)       full_form+="\[\033[1;31m\]"
-                         ;;
-        LightGreen) full_form+="\[\033[1;32m\]"
-                         ;;
-        Yellow)  full_form+="\[\033[1;33m\]"
-                 ;;
-        LightBlue)  full_form+="\[\033[1;34m\]"
-                         ;;
-        LightPurple)  full_form+="\[\033[1;35m\]"
-                         ;;
-        LightCyan)  full_form+="\[\033[1;36m\]"
-                ;;
-        *)      error_reason="An error has occured with the color variable. (Full form.)"
-                terminate_due_to_error
+echo "Enable command prompt:
+$display_form
+With color: $colour
+(y/n)"
+read write_confirmation
+case "$write_confirmation" in
+	y|Y|yes|Yes)	confirm_seg_active=0
+		begin_writing=yes
 		;;
+	n|N|no|No)	confirm_seg_active=0
+		clear
+		echo "What would you like to do?
+	- return to the editor (Enter '1'.)
+	- quit without saving (Enter anything else.)"
+		read return_or_quit
+		if [ "$return_or_quit" == 1 ]; then
+		echo "Returning to editor..."
+		else
+		echo "Program was manually terminated."
+		exit
+		fi
+		;;
+	*) 	;;	
 esac
-update_full_form
-full_form+="\[\033[0m\] "
+done
+done
+
+# The actual saving/enabling takes place here:
+echo "Saving..."
 
 fi # end of the start confirmation if
