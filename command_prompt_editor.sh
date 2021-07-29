@@ -37,6 +37,11 @@ echo ""
 }
 
 
+sleep_dot () {
+echo "."
+sleep 1
+}
+
 
 update_full_form () {
 echo "Updating full form."
@@ -93,7 +98,7 @@ case "$check_this_out" in
 esac
 var_for_cutting=$(($var_for_cutting+1))
 done
-full_form+=" "
+# full_form+=" "
 }	
 
 
@@ -163,6 +168,13 @@ if [ "$start_confirm" != "y" ] && [ "$start_confirm" != "Y" ]; then
 echo "Quiting..."; exit
 else
 
+echo "If you have not used this editor before, or if you need a refresher, instructions can be found in the README file."
+sleep_dot
+sleep_dot
+sleep_dot
+sleep_dot
+sleep_dot
+sleep_dot
 begin_writing="no"
 while [ "$begin_writing" == "no" ]; do
 while [ "$main_seg_active" == 1 ]; do
@@ -198,7 +210,9 @@ read input_selection
 case "$input_selection" in
         %) 	echo "I'm sorry, you cannot use a '%' sign. Any other character is allowed!"
 		add_seperator=false
-		sleep 3
+		sleep_dot
+		sleep_dot
+		sleep_dot
 		;;
 	sp)	easy_edit_form+=" "
 		;;
@@ -212,7 +226,9 @@ case "$input_selection" in
 		else
 		echo "There is nothing to delete!"
 		add_seperator=false
-		sleep 3
+		sleep_dot
+		sleep_dot
+		sleep_dot
 		fi
 		;;
         wr)	main_seg_active=0
@@ -220,7 +236,9 @@ case "$input_selection" in
 		;;
         ex)	echo "Sorry! Exporting is not yet supported."
 		add_seperator=false
-		sleep 3
+		sleep_dot
+		sleep_dot
+		sleep_dot
 		;;
 # Items
         1a)	easy_edit_form+=$input_selection
@@ -265,13 +283,10 @@ case "$input_selection" in
 		;;
 	*)      echo "Error! Remember, characters must be entered one at a time! / Error! That is not a valid multi-char code!"
 		add_seperator=false
-		sleep 1
-		echo .
-		sleep 1
-		echo .
-		sleep 1
-		echo .
-		sleep 1
+		sleep_dot
+		sleep_dot
+                sleep_dot
+                sleep_dot
 		;;
 esac
 if [ "$add_seperator" == "true" ]; then
@@ -332,7 +347,9 @@ case "$color" in
         17)  full_form+="\[\033[1;36m\]"; colour="Light Cyan"; second_seg_active=0
                 ;;
         *)      echo "Sorry, $color was not an option."
-		sleep 3
+                sleep_dot
+                sleep_dot
+                sleep_dot
 		;;
 esac
 done # End of color choosing 'while'
@@ -376,7 +393,7 @@ done
 
 # The actual saving/enabling takes place here:
 echo "Saving..."
-bashrc=$(less .bashrc)
+bashrc=$(less ~/.bashrc)
 bashrc+="
 # ---Added by the custom command prompt editor---"
 bashrc+="
@@ -384,8 +401,10 @@ PS1='$full_form'
 export PS1"
 bashrc+="
 # ---End added by the custom command prompt editor---"
-mv /home/$USER/.bashrc /home/$USER/.bashrc.bak
-touch /home/$USER/.bashrc
-echo "$bashrc" | cat > /home/$USER/.bashrc
-
+mv ~/.bashrc ~/.bashrc_backup_made_by_command_prompt_editor
+touch ~/.bashrc
+echo "$bashrc" | cat > ~/.bashrc
+echo "To take effect, you need to start a new shell session. (Close and re-open your terminal.)"
+echo "If you wish to undo any changes made, check the README file."
+echo "Program complete."
 fi # end of the start confirmation if
