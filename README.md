@@ -23,5 +23,7 @@ Delete those four lines, (and if there are multipule copies, delete them too.)
 Now, save and close your text editor.
 
 Finally, run this command:
-rm -r ~/.bashrc; mv ~/.bashrc_backup_made_by_command_prompt_editor ~/.bashrc; source ~/.bashrc
+
+```rm -r ~/.bashrc; mv ~/.bashrc_backup_made_by_command_prompt_editor ~/.bashrc; source ~/.bashrc```
+
 (ATTENTION: Run this command ONLY if you could access the above mentioned file, bad things may happen otherwise. Consider this a warning.)
