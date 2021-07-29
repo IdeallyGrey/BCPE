@@ -401,7 +401,7 @@ PS1='$full_form'
 export PS1"
 bashrc+="
 # ---End added by the custom command prompt editor---"
-mv ~/.bashrc ~/.bashrc_backup_made_by_command_prompt_editor
+mv ~/.bashrc ~/.bashrc_backup_made_by_bcpe
 touch ~/.bashrc
 echo "$bashrc" | cat > ~/.bashrc
 echo "To take effect, you need to start a new shell session. (Close and re-open your terminal.)"
