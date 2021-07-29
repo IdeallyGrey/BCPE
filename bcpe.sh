@@ -173,8 +173,6 @@ sleep_dot
 sleep_dot
 sleep_dot
 sleep_dot
-sleep_dot
-sleep_dot
 begin_writing="no"
 while [ "$begin_writing" == "no" ]; do
 while [ "$main_seg_active" == 1 ]; do
