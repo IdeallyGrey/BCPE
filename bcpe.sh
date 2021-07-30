@@ -243,45 +243,7 @@ case "$input_selection" in
 		sleep_dot
 		;;
 # Items
-        1a)	easy_edit_form+=$input_selection
-		;;
-        1b)     easy_edit_form+=$input_selection
-                ;;
-        1c)     easy_edit_form+=$input_selection
-                ;;
-        1d)     easy_edit_form+=$input_selection
-                ;;
-        1e)     easy_edit_form+=$input_selection
-                ;;
-        1f)     easy_edit_form+=$input_selection
-                ;;
-        1g)     easy_edit_form+=$input_selection
-                ;;
-        1h)     easy_edit_form+=$input_selection
-                ;;
-        1i)     easy_edit_form+=$input_selection
-                ;;
-        1j)     easy_edit_form+=$input_selection
-                ;;
-        1k)     easy_edit_form+=$input_selection
-                ;;
-        1l)     easy_edit_form+=$input_selection
-                ;;
-        1m)     easy_edit_form+=$input_selection
-                ;;
-        1n)     easy_edit_form+=$input_selection
-                ;;
-        1o)     easy_edit_form+=$input_selection
-                ;;
-        1p)     easy_edit_form+=$input_selection
-                ;;
-	1q)     easy_edit_form+=$input_selection
-                ;;
-	1r)     easy_edit_form+=$input_selection
-                ;;
-	1s)     easy_edit_form+=$input_selection
-                ;;
-	?)	easy_edit_form+=$input_selection
+        1[a-s])	easy_edit_form+=$input_selection
 		;;
 	*)      echo "Error! Remember, characters must be entered one at a time! / Error! That is not a valid multi-char code!"
 		add_seperator=false
@@ -316,37 +278,37 @@ defualtselected=false
 case "$color" in
         1)	defaultselected=true; colour="Default"; second_seg_active=0
 		;;
-	2)  full_form+="\[\033[1;37m\]"; colour="Bold White"; second_seg_active=0
+	2)	full_form+="\[\033[1;37m\]"; colour="Bold White"; second_seg_active=0
                 ;;
-        3)  full_form+="\[\033[0;30m\]"; colour="Black"; second_seg_active=0
+        3)	full_form+="\[\033[0;30m\]"; colour="Black"; second_seg_active=0
                 ;;
-        4)    full_form+="\[\033[0;31m\]"; colour="Red"; second_seg_active=0
+        4)	full_form+="\[\033[0;31m\]"; colour="Red"; second_seg_active=0
                 ;;
-        5)  full_form+="\[\033[0;32m\]"; colour="Green"; second_seg_active=0
+        5)	full_form+="\[\033[0;32m\]"; colour="Green"; second_seg_active=0
                 ;;
-        6)  full_form+="\[\033[0;33m\]"; colour="Brown"; second_seg_active=0
+        6)	full_form+="\[\033[0;33m\]"; colour="Brown"; second_seg_active=0
                 ;;
-        7)   full_form+="\[\033[0;34m\]"; colour="Blue"; second_seg_active=0
+        7)	full_form+="\[\033[0;34m\]"; colour="Blue"; second_seg_active=0
                 ;;
-        8) full_form+="\[\033[0;35m\]"; colour="Purple"; second_seg_active=0
+        8)	full_form+="\[\033[0;35m\]"; colour="Purple"; second_seg_active=0
                 ;;
-        9)   full_form+="\[\033[0;36m\]"; colour="Cyan"; second_seg_active=0
+        9)	full_form+="\[\033[0;36m\]"; colour="Cyan"; second_seg_active=0
                 ;;
-        10)  full_form+="\[\033[0;37m\]"; colour="Light Grey"; second_seg_active=0
-                         ;;
-        11)       full_form+="\[\033[1;30m\]"; colour="Dark Grey"; second_seg_active=0
-                         ;;
-        12)       full_form+="\[\033[1;31m\]"; colour="Light Red"; second_seg_active=0
-                         ;;
-        13) full_form+="\[\033[1;32m\]"; colour="Light Green"; second_seg_active=0
-                         ;;
-        14)  full_form+="\[\033[1;33m\]"; colour="Yellow"; second_seg_active=0
-                 ;;
-        15)  full_form+="\[\033[1;34m\]"; colour="Light Blue"; second_seg_active=0
-                         ;;
-        16)  full_form+="\[\033[1;35m\]"; colour="Light Purple"; second_seg_active=0
-                         ;;
-        17)  full_form+="\[\033[1;36m\]"; colour="Light Cyan"; second_seg_active=0
+        10)	full_form+="\[\033[0;37m\]"; colour="Light Grey"; second_seg_active=0
+		;;
+        11)	full_form+="\[\033[1;30m\]"; colour="Dark Grey"; second_seg_active=0
+		;;
+        12)	full_form+="\[\033[1;31m\]"; colour="Light Red"; second_seg_active=0
+		;;
+        13)	full_form+="\[\033[1;32m\]"; colour="Light Green"; second_seg_active=0
+		;;
+        14)	full_form+="\[\033[1;33m\]"; colour="Yellow"; second_seg_active=0
+		;;
+        15)	full_form+="\[\033[1;34m\]"; colour="Light Blue"; second_seg_active=0
+		;;
+        16)	full_form+="\[\033[1;35m\]"; colour="Light Purple"; second_seg_active=0
+		;;
+        17)	full_form+="\[\033[1;36m\]"; colour="Light Cyan"; second_seg_active=0
                 ;;
         *)      echo "Sorry, $color was not an option."
                 sleep_dot
