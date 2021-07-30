@@ -15,13 +15,11 @@ var_for_cutting=1
 check_this_out="blank"
 error_reason="Reason unknown."
 
-
 # Functions
 terminate_due_to_error () {
 echo "The program has been terminated due to error:"; echo $error_reason; echo "Please report this issue."
 exit 1
 }
-
 
 # Displayed several times at the top of the screen
 header () {
@@ -37,13 +35,11 @@ echo $extra_message
 echo ""
 }
 
-
 # Its a very basic loading animation.
 sleep_dot () {
 echo "."
 sleep 1
 }
-
 
 # Updates the variable 'full_form' drawing info from the variable 'easy_edit_form'
 update_full_form () {
@@ -104,8 +100,6 @@ done
 # full_form+=" "
 }  
 
-
-
 # Updates the variable 'display_form' with info from variable 'easy_edit_form'
 update_display_form () {
 echo "Updating display form."
@@ -163,7 +157,6 @@ var_for_cutting=$(($var_for_cutting+1))
 done
 return
 }
-
 
 # Starts from here
 echo "Running this editor will clear your shell, do you want to continue? (y/n)"
