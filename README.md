@@ -1,5 +1,5 @@
 # Overview
-BCPE stands for Bash Command Prompt Editor. It's meant to be an easy way to spice up your command line, and potentally make it more useful. You can customise your design with 'items'. These include things like the current username, time, number of commands run, and more. You can also choose from 17 different colors. And of course, it's fully open-source.
+BCPE stands for Bash Command Prompt Editor. It's meant to be an easy way to spice up your command line, and potentally make it more useful. You can customise your design with 'items'. These include things like the username, machine hostname, current time, number of commands run, and more. You can also choose from 17 different colors. And of course, it's open-source.
 # Examples
 Whether you're an information junkie:
 
@@ -20,9 +20,9 @@ Setup:
 
 Find and download the latest release (It should be bellow the "About" section on GitHub), and then extract the contents (If you downloaded the .tar.gz version, this can be done with the command "tar -xvf [filename]"). Enter the new directory, where you should see a file labled "bcpe.sh". Start the editor by running "./bcpe.sh". 
 
-In the editor:
+Once in the editor:
 
-In the editor you may run commands, add characters to your design, or add items to your design. When adding characters (|, #, \*, a, 7, etc..) to the design in the editor, you must enter one character at a time. When adding items, enter the two character code for the coresponding item. The same goes for commands. For a " " (space) enter 'sp'. 
+In the editor you may run commands, add characters to your design, or add items to your design. When adding characters (such as: |, #, \*, a, 7, etc..) to the design in the editor, you must enter one character at a time. When adding items, enter the two character code for the coresponding item. The same goes for commands. For a " " (space) enter 'sp'. 
 
 # To Undo Changes
 (NOTE: You must be logged into the same user that you used the editor with.)
