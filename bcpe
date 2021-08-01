@@ -17,104 +17,108 @@ error_reason="Reason unknown."
 
 # Functions
 terminate_due_to_error () {
-echo "The program has been terminated due to error:"; echo $error_reason; echo "Please report this issue."
-exit 1
+  echo "The program has been terminated due to error:"
+  echo "$error_reason"
+  echo "Please report this issue."
+  exit 1
 }
 
 # Displayed several times at the top of the screen
 header () {
-clear
-echo "
---- Command Prompt Editor ---
-"
-echo ""
-echo "---"
-echo -e $display_form
-echo "---"
-echo $extra_message
-echo ""
+  clear
+  echo "
+  --- Command Prompt Editor ---
+  "
+  echo ""
+  echo "---"
+  echo -e $display_form
+  echo "---"
+  echo $extra_message
+  echo ""
 }
 
 # Its a very basic loading animation.
 sleep_dot () {
-echo "."
-sleep 1
+  echo "."
+  sleep 1
 }
 
 # Updates the variable 'full_form' drawing info from the variable 'easy_edit_form'
 update_full_form () {
-echo "Updating full form."
-var_for_cutting=1
-while [[ "$var_for_cutting" -le "$size_of_easy_edit_form" ]]; do
-  check_this_out=$(echo $easy_edit_form | cut -d '%' -f $var_for_cutting)
-  case "$check_this_out" in
-  # Items
-    1a)  full_form+="\[\a\]" ;;
-    1b)  full_form+="\d" ;;
-    1c)  full_form+="\h" ;;
-    1d)  full_form+="\H" ;;
-    1e)  full_form+="\j" ;;
-    1f)  full_form+="\l" ;;
-    1g)  full_form+="\s" ;;
-    1h)  full_form+="\t" ;;
-    1i)  full_form+="\T" ;;
-    1j)  full_form+="\@" ;;
-    1k)  full_form+="\A" ;;
-    1l)  full_form+="\u" ;;
-    1m)  full_form+="\v" ;;
-    1n)  full_form+="\V" ;;
-    1o)  full_form+="\w" ;;
-    1p)  full_form+="\W" ;;
-    1q)  full_form+="\!" ;;
-    1r)  full_form+="\#" ;;
-    1s)  full_form+="\$" ;;
-  # Single chars
-    ?)  full_form+=$check_this_out ;;
-  # Something that should not be there
-    *)  error_reason="Something was found in the sting used to store your custom command line prior to saving it that definetly should not be there."
-      terminate_due_to_error ;;
-  esac
-  var_for_cutting=$(($var_for_cutting+1))
-done
-# full_form+=" "
+  echo "Updating full form."
+  var_for_cutting=1
+  while [[ "$var_for_cutting" -le "$size_of_easy_edit_form" ]]; do
+    check_this_out=$(echo $easy_edit_form | cut -d '%' -f $var_for_cutting)
+    case "$check_this_out" in
+    # Items
+      1a)  full_form+="\[\a\]" ;;
+      1b)  full_form+="\d" ;;
+      1c)  full_form+="\h" ;;
+      1d)  full_form+="\H" ;;
+      1e)  full_form+="\j" ;;
+      1f)  full_form+="\l" ;;
+      1g)  full_form+="\s" ;;
+      1h)  full_form+="\t" ;;
+      1i)  full_form+="\T" ;;
+      1j)  full_form+="\@" ;;
+      1k)  full_form+="\A" ;;
+      1l)  full_form+="\u" ;;
+      1m)  full_form+="\v" ;;
+      1n)  full_form+="\V" ;;
+      1o)  full_form+="\w" ;;
+      1p)  full_form+="\W" ;;
+      1q)  full_form+="\!" ;;
+      1r)  full_form+="\#" ;;
+      1s)  full_form+="\$" ;;
+    # Single chars
+      ?)  full_form+=$check_this_out ;;
+    # Something that should not be there
+      *)  error_reason="Something was found in the sting used to store your custom command line prior to saving it that definetly should not be there."
+        terminate_due_to_error ;;
+    esac
+    var_for_cutting=$(($var_for_cutting+1))
+  done
+  # full_form+=" "
 }  
 
 # Updates the variable 'display_form' with info from variable 'easy_edit_form'
 update_display_form () {
-echo "Updating display form."
-var_for_cutting=1
-display_form=""
-extra_message=""
-while [[ "$var_for_cutting" -le "$size_of_easy_edit_form" ]]; do
-check_this_out=$(echo $easy_edit_form | cut -d '%' -f $var_for_cutting)
-case "$check_this_out" in
-# Items
-        1a)     display_form+="(Non-visable beep char.)"
-    extra_message+="Should play beep. May be supressed on most systems." ;;
-        1b)     display_form+="Mon January 1" ;;
-        1c)     display_form+="$HOSTNAME" ;;
-        1d)     display_form+="$HOSTNAME" ;;
-        1e)     display_form+="(Number of active jobs)" ;;
-        1f)     display_form+="(Terminal device name)" ;;
-        1g)     display_form+="(Shell program name)" ;;
-        1h)     display_form+="21:58:26" ;;
-        1i)     display_form+="9:58:26" ;;
-        1j)     display_form+="9:58:26 PM" ;;
-        1k)     display_form+="21:58" ;;
-        1l)     display_form+="$USER" ;;
-        1m)     display_form+="1.23" ;;
-        1n)     display_form+="1.23.4" ;;
-        1o)     display_form+="~/Documents/Directory/Example" ;;
-        1p)     display_form+="/Example" ;;
-        1q)     display_form+="(History # of this command)" ;;
-        1r)     display_form+="(# of commands run during shell session)" ;;
-        1s)     display_form+="(Displays '$' if normal user, or '#' if root user)" ;;
-# Single chars
-        ?)      display_form+=$check_this_out ;;
-esac
-var_for_cutting=$(($var_for_cutting+1))
-done
-return
+  echo "Updating display form."
+  var_for_cutting=1
+  display_form=""
+  extra_message=""
+  while [[ "$var_for_cutting" -le "$size_of_easy_edit_form" ]]; do
+    check_this_out=$(echo $easy_edit_form | cut -d '%' -f $var_for_cutting)
+    case "$check_this_out" in
+      # Items
+      1a)     
+        display_form+="(Non-visable beep char.)"
+        extra_message+="Should play beep. May be supressed on most systems."
+      ;;
+      1b)     display_form+="Mon January 1" ;;
+      1c)     display_form+="$HOSTNAME" ;;
+      1d)     display_form+="$HOSTNAME" ;;
+      1e)     display_form+="(Number of active jobs)" ;;
+      1f)     display_form+="(Terminal device name)" ;;
+      1g)     display_form+="(Shell program name)" ;;
+      1h)     display_form+="21:58:26" ;;
+      1i)     display_form+="9:58:26" ;;
+      1j)     display_form+="9:58:26 PM" ;;
+      1k)     display_form+="21:58" ;;
+      1l)     display_form+="$USER" ;;
+      1m)     display_form+="1.23" ;;
+      1n)     display_form+="1.23.4" ;;
+      1o)     display_form+="~/Documents/Directory/Example" ;;
+      1p)     display_form+="/Example" ;;
+      1q)     display_form+="(History # of this command)" ;;
+      1r)     display_form+="(# of commands run during shell session)" ;;
+      1s)     display_form+="(Displays '$' if normal user, or '#' if root user)" ;;
+      # Single chars
+      ?)      display_form+=$check_this_out ;;
+    esac
+    var_for_cutting=$(($var_for_cutting+1))
+  done
+  return
 }
 
 # Starts from here
@@ -160,42 +164,52 @@ while [ "$begin_writing" == "no" ]; do # This while loop contains the editor and
   echo "1s - Displays a $ if logged in as user, instead displays a # if logged in as root."
   echo ""
   echo "Enter a single character, or a two character command/item: "
-  read input_selection
+  read -r input_selection
   case "$input_selection" in
-          %)   echo "I'm sorry, you cannot use a '%' sign. Any other character is allowed!"
+    %)
+      echo "I'm sorry, you cannot use a '%' sign. Any other character is allowed!"
       add_seperator=false
       sleep_dot
       sleep_dot
-      sleep_dot ;;
+      sleep_dot
+    ;;
     sp)  easy_edit_form+=" " ;;
-  # Commands
-          q!)  echo "Program has been manually terminated."; exit ;;
-          rm)  if ((size_of_easy_edit_form>0)); then
-      size_of_easy_edit_form=$(($size_of_easy_edit_form-1))
-      easy_edit_form=$(echo $easy_edit_form | cut -d '%' -f 1-$size_of_easy_edit_form)
-      size_of_easy_edit_form=$(($size_of_easy_edit_form-1)) # Here, the size is reduced again, but the loss is made of for in the 'if' right bellowthis 'case'
-      else
-      echo "There is nothing to delete!"
+    # Commands
+    q!)  echo "Program has been manually terminated."; exit ;;
+    rm) 
+      if ((size_of_easy_edit_form>0)); then
+        size_of_easy_edit_form=$(($size_of_easy_edit_form-1))
+        easy_edit_form=$(echo $easy_edit_form | cut -d '%' -f 1-$size_of_easy_edit_form)
+        size_of_easy_edit_form=$(($size_of_easy_edit_form-1)) # Here, the size is reduced again, but the loss is made of for in the 'if' right bellowthis 'case'
+        else
+        echo "There is nothing to delete!"
+        add_seperator=false
+        sleep_dot
+        sleep_dot
+        sleep_dot
+      fi
+    ;;
+    wr)
+      main_seg_active=0
+      add_seperator=false
+    ;;
+    ex)
+      echo "Sorry! Exporting is not yet supported."
       add_seperator=false
       sleep_dot
       sleep_dot
       sleep_dot
-      fi ;;
-          wr)  main_seg_active=0
-      add_seperator=false ;;
-          ex)  echo "Sorry! Exporting is not yet supported."
+    ;;
+    # Items
+    1[a-s])  easy_edit_form+=$input_selection ;;
+    *)
+      echo "Error! Remember, characters must be entered one at a time! / Error! That is not a valid multi-char code!"
       add_seperator=false
       sleep_dot
       sleep_dot
-      sleep_dot ;;
-  # Items
-          1[a-s])  easy_edit_form+=$input_selection ;;
-    *)      echo "Error! Remember, characters must be entered one at a time! / Error! That is not a valid multi-char code!"
-      add_seperator=false
       sleep_dot
       sleep_dot
-                  sleep_dot
-                  sleep_dot ;;
+    ;;
   esac
   if [ "$add_seperator" == "true" ]; then
     easy_edit_form+="%"
@@ -237,10 +251,11 @@ while [ "$second_seg_active" == 1 ]; do
     15)  full_form+="\[\033[1;34m\]"; colour="Light Blue"; second_seg_active=0 ;;
     16)  full_form+="\[\033[1;35m\]"; colour="Light Purple"; second_seg_active=0 ;;
     17)  full_form+="\[\033[1;36m\]"; colour="Light Cyan"; second_seg_active=0 ;;
-    *)   echo "Sorry, $color was not an option."
-        sleep_dot
-        sleep_dot
-        sleep_dot
+    *) 
+      echo "Sorry, $color was not an option."
+      sleep_dot
+      sleep_dot
+      sleep_dot
     ;;
   esac
 done # End of color choosing 'while'
@@ -261,20 +276,24 @@ while [ "$confirm_seg_active" == 1 ]; do # This while loop contain the writing c
   (y/n)"
   read -r write_confirmation
   case "$write_confirmation" in
-    ([yY]|[yY][eE][sS])  confirm_seg_active=0
-      begin_writing=yes ;;
-    ([nN]|[nN][oO])  confirm_seg_active=0
+    ([yY]|[yY][eE][sS])
+      confirm_seg_active=0
+      begin_writing=yes
+    ;;
+    ([nN]|[nN][oO]) 
+      confirm_seg_active=0
       clear
       echo "What would you like to do?
-    - return to the editor (Enter '1'.)
-    - quit without saving (Enter anything else.)"
-      read return_or_quit
+        - return to the editor (Enter '1'.)
+        - quit without saving (Enter anything else.)"
+      read -r return_or_quit
       if [ "$return_or_quit" == 1 ]; then
         echo "Returning to editor..."
       else
         echo "Program was manually terminated."
         exit
-      fi ;;
+      fi
+    ;;
     *) : ;;  
   esac
 done
