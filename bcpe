@@ -102,8 +102,8 @@ update_display_form () {
         extra_message+="Should play beep. May be supressed on most systems."
       ;;
       (1b) display_form+="Mon January 1" ;;
-      (1c) display_form+="$HOSTNAME" ;;
-      (1d) display_form+="$HOSTNAME" ;;
+      (1c) display_form+="${HOSTNAME}" ;;
+      (1d) display_form+="${HOSTNAME}" ;;
       (1e) display_form+="(Number of active jobs)" ;;
       (1f) display_form+="(Terminal device name)" ;;
       (1g) display_form+="(Shell program name)" ;;
@@ -111,16 +111,16 @@ update_display_form () {
       (1i) display_form+="9:58:26" ;;
       (1j) display_form+="9:58:26 PM" ;;
       (1k) display_form+="21:58" ;;
-      (1l) display_form+="$USER" ;;
+      (1l) display_form+="${USER}" ;;
       (1m) display_form+="1.23" ;;
       (1n) display_form+="1.23.4" ;;
-      (1o) display_form+="~/Documents/Directory/Example" ;;
+      (1o) display_form+="${HOME}/Documents/Directory/Example" ;;
       (1p) display_form+="/Example" ;;
       (1q) display_form+="(History # of this command)" ;;
       (1r) display_form+="(# of commands run during shell session)" ;;
       (1s) display_form+="(Displays '$' if normal user, or '#' if root user)" ;;
       # Single chars
-      (?)      display_form+=$check_this_out ;;
+      (?)  display_form+="${check_this_out}" ;;
     esac
     var_for_cutting=$((var_for_cutting+1))
   done
@@ -176,12 +176,16 @@ while [ "$begin_writing" == "no" ]; do # This while loop contains the editor and
       ;;
       (sp)  easy_edit_form+=" " ;;
       # Commands
-      (q!)  echo "Program has been manually terminated."; exit ;;
+      (q!)
+        echo "Program has been manually terminated."
+        exit
+      ;;
       (rm) 
         if ((size_of_easy_edit_form>0)); then
-          size_of_easy_edit_form=$(($size_of_easy_edit_form-1))
-          easy_edit_form=$(echo $easy_edit_form | cut -d '%' -f 1-$size_of_easy_edit_form)
-          size_of_easy_edit_form=$(($size_of_easy_edit_form-1)) # Here, the size is reduced again, but the loss is made of for in the 'if' right bellowthis 'case'
+          size_of_easy_edit_form=$((size_of_easy_edit_form-1))
+          easy_edit_form=$(echo "$easy_edit_form" | cut -d '%' -f 1-$size_of_easy_edit_form)
+          # Here, the size is reduced again, but the loss is made of for in the 'if' right below this 'case'
+          size_of_easy_edit_form=$((size_of_easy_edit_form-1)) 
           else
           echo "There is nothing to delete!"
           add_seperator=false
@@ -207,7 +211,7 @@ while [ "$begin_writing" == "no" ]; do # This while loop contains the editor and
     esac
     if [ "$add_seperator" == "true" ]; then
       easy_edit_form+="%"
-      size_of_easy_edit_form=$(($size_of_easy_edit_form+1))
+      size_of_easy_edit_form=$((size_of_easy_edit_form+1))
     fi
   done # end of the main while loop
 
