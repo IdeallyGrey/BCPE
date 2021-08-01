@@ -39,8 +39,12 @@ header () {
 
 # Its a very basic loading animation.
 sleep_dot () {
-  echo "."
-  sleep 1
+  local count
+  count="${1:-1}"
+  for (( i=0;i<count;++i )); do
+    printf -- '%s\n' "."
+    sleep 1
+  done
 }
 
 # Updates the variable 'full_form' drawing info from the variable 'easy_edit_form'
@@ -51,32 +55,34 @@ update_full_form () {
     check_this_out=$(echo $easy_edit_form | cut -d '%' -f $var_for_cutting)
     case "$check_this_out" in
     # Items
-      1a)  full_form+="\[\a\]" ;;
-      1b)  full_form+="\d" ;;
-      1c)  full_form+="\h" ;;
-      1d)  full_form+="\H" ;;
-      1e)  full_form+="\j" ;;
-      1f)  full_form+="\l" ;;
-      1g)  full_form+="\s" ;;
-      1h)  full_form+="\t" ;;
-      1i)  full_form+="\T" ;;
-      1j)  full_form+="\@" ;;
-      1k)  full_form+="\A" ;;
-      1l)  full_form+="\u" ;;
-      1m)  full_form+="\v" ;;
-      1n)  full_form+="\V" ;;
-      1o)  full_form+="\w" ;;
-      1p)  full_form+="\W" ;;
-      1q)  full_form+="\!" ;;
-      1r)  full_form+="\#" ;;
-      1s)  full_form+="\$" ;;
-    # Single chars
-      ?)  full_form+=$check_this_out ;;
-    # Something that should not be there
-      *)  error_reason="Something was found in the sting used to store your custom command line prior to saving it that definetly should not be there."
-        terminate_due_to_error ;;
+      (1a)  full_form+="\[\a\]" ;;
+      (1b)  full_form+="\d" ;;
+      (1c)  full_form+="\h" ;;
+      (1d)  full_form+="\H" ;;
+      (1e)  full_form+="\j" ;;
+      (1f)  full_form+="\l" ;;
+      (1g)  full_form+="\s" ;;
+      (1h)  full_form+="\t" ;;
+      (1i)  full_form+="\T" ;;
+      (1j)  full_form+="\@" ;;
+      (1k)  full_form+="\A" ;;
+      (1l)  full_form+="\u" ;;
+      (1m)  full_form+="\v" ;;
+      (1n)  full_form+="\V" ;;
+      (1o)  full_form+="\w" ;;
+      (1p)  full_form+="\W" ;;
+      (1q)  full_form+="\!" ;;
+      (1r)  full_form+="\#" ;;
+      (1s)  full_form+="\$" ;;
+      # Single chars
+      (?)  full_form+=$check_this_out ;;
+      # Something that should not be there
+      (*)
+        error_reason="Something was found in the sting used to store your custom command line prior to saving it that definetly should not be there."
+        terminate_due_to_error
+      ;;
     esac
-    var_for_cutting=$(($var_for_cutting+1))
+    var_for_cutting=$((var_for_cutting+1))
   done
   # full_form+=" "
 }  
@@ -91,32 +97,32 @@ update_display_form () {
     check_this_out=$(echo $easy_edit_form | cut -d '%' -f $var_for_cutting)
     case "$check_this_out" in
       # Items
-      1a)     
+      (1a)     
         display_form+="(Non-visable beep char.)"
         extra_message+="Should play beep. May be supressed on most systems."
       ;;
-      1b)     display_form+="Mon January 1" ;;
-      1c)     display_form+="$HOSTNAME" ;;
-      1d)     display_form+="$HOSTNAME" ;;
-      1e)     display_form+="(Number of active jobs)" ;;
-      1f)     display_form+="(Terminal device name)" ;;
-      1g)     display_form+="(Shell program name)" ;;
-      1h)     display_form+="21:58:26" ;;
-      1i)     display_form+="9:58:26" ;;
-      1j)     display_form+="9:58:26 PM" ;;
-      1k)     display_form+="21:58" ;;
-      1l)     display_form+="$USER" ;;
-      1m)     display_form+="1.23" ;;
-      1n)     display_form+="1.23.4" ;;
-      1o)     display_form+="~/Documents/Directory/Example" ;;
-      1p)     display_form+="/Example" ;;
-      1q)     display_form+="(History # of this command)" ;;
-      1r)     display_form+="(# of commands run during shell session)" ;;
-      1s)     display_form+="(Displays '$' if normal user, or '#' if root user)" ;;
+      (1b) display_form+="Mon January 1" ;;
+      (1c) display_form+="$HOSTNAME" ;;
+      (1d) display_form+="$HOSTNAME" ;;
+      (1e) display_form+="(Number of active jobs)" ;;
+      (1f) display_form+="(Terminal device name)" ;;
+      (1g) display_form+="(Shell program name)" ;;
+      (1h) display_form+="21:58:26" ;;
+      (1i) display_form+="9:58:26" ;;
+      (1j) display_form+="9:58:26 PM" ;;
+      (1k) display_form+="21:58" ;;
+      (1l) display_form+="$USER" ;;
+      (1m) display_form+="1.23" ;;
+      (1n) display_form+="1.23.4" ;;
+      (1o) display_form+="~/Documents/Directory/Example" ;;
+      (1p) display_form+="/Example" ;;
+      (1q) display_form+="(History # of this command)" ;;
+      (1r) display_form+="(# of commands run during shell session)" ;;
+      (1s) display_form+="(Displays '$' if normal user, or '#' if root user)" ;;
       # Single chars
-      ?)      display_form+=$check_this_out ;;
+      (?)      display_form+=$check_this_out ;;
     esac
-    var_for_cutting=$(($var_for_cutting+1))
+    var_for_cutting=$((var_for_cutting+1))
   done
   return
 }
@@ -129,10 +135,7 @@ if [ "$start_confirm" != "y" ] && [ "$start_confirm" != "Y" ]; then
 else
 
 echo "If you have not used this editor before, or if you need a refresher, instructions can be found in the README file."
-sleep_dot
-sleep_dot
-sleep_dot
-sleep_dot
+sleep_dot 4
 begin_writing="no"
 while [ "$begin_writing" == "no" ]; do # This while loop contains the editor and the color choosing, and exists in order to allow someone to return to the editor prior to saving.
   while [ "$main_seg_active" == 1 ]; do # This while loop contains the bulk of the editor.
@@ -169,9 +172,7 @@ while [ "$begin_writing" == "no" ]; do # This while loop contains the editor and
     %)
       echo "I'm sorry, you cannot use a '%' sign. Any other character is allowed!"
       add_seperator=false
-      sleep_dot
-      sleep_dot
-      sleep_dot
+      sleep_dot 3
     ;;
     sp)  easy_edit_form+=" " ;;
     # Commands
@@ -184,9 +185,7 @@ while [ "$begin_writing" == "no" ]; do # This while loop contains the editor and
         else
         echo "There is nothing to delete!"
         add_seperator=false
-        sleep_dot
-        sleep_dot
-        sleep_dot
+        sleep_dot 3
       fi
     ;;
     wr)
@@ -196,19 +195,14 @@ while [ "$begin_writing" == "no" ]; do # This while loop contains the editor and
     ex)
       echo "Sorry! Exporting is not yet supported."
       add_seperator=false
-      sleep_dot
-      sleep_dot
-      sleep_dot
+      sleep_dot 3
     ;;
     # Items
     1[a-s])  easy_edit_form+=$input_selection ;;
     *)
       echo "Error! Remember, characters must be entered one at a time! / Error! That is not a valid multi-char code!"
       add_seperator=false
-      sleep_dot
-      sleep_dot
-      sleep_dot
-      sleep_dot
+      sleep_dot 4
     ;;
   esac
   if [ "$add_seperator" == "true" ]; then
@@ -232,7 +226,7 @@ while [ "$second_seg_active" == 1 ]; do
   echo "Enter corresponding number:"
   read -r color
   full_form=""
-  defualtselected=false
+  defaultselected=false
   case "$color" in
     1)  defaultselected=true; colour="Default"; second_seg_active=0 ;;
     2)  full_form+="\[\033[1;37m\]"; colour="Bold White"; second_seg_active=0 ;;
@@ -253,9 +247,7 @@ while [ "$second_seg_active" == 1 ]; do
     17)  full_form+="\[\033[1;36m\]"; colour="Light Cyan"; second_seg_active=0 ;;
     *) 
       echo "Sorry, $color was not an option."
-      sleep_dot
-      sleep_dot
-      sleep_dot
+      sleep_dot 3
     ;;
   esac
 done # End of color choosing 'while'
