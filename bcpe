@@ -98,12 +98,95 @@ sp - Insert a 'space'.
 EOF
 }
 
+char_prompt() {
+  printf -- '%s\n' "Enter a single character, or a two character command/item: "
+  read -r input_selection
+  case "${input_selection}" in
+    (%)
+      printf -- '%s\n' "I'm sorry, you cannot use a '%' sign. Any other character is allowed!"
+      add_seperator=false
+      sleep_dot 3
+    ;;
+    (sp)  easy_edit_form+=" " ;;
+    # Commands
+    (q!) die "Program has been manually terminated." ;;
+    (rm) 
+      if ((size_of_easy_edit_form>0)); then
+        size_of_easy_edit_form=$((size_of_easy_edit_form-1))
+        easy_edit_form=$(printf -- '%s\n' "${easy_edit_form}" | cut -d '%' -f 1-${size_of_easy_edit_form})
+        # Here, the size is reduced again, but the loss is made of for in the 'if' right below this 'case'
+        size_of_easy_edit_form=$((size_of_easy_edit_form-1)) 
+        else
+        printf -- '%s\n' "There is nothing to delete!"
+        add_seperator=false
+        sleep_dot 3
+      fi
+    ;;
+    (wr)
+      main_seg_active=0
+      add_seperator=false
+    ;;
+    (ex)
+      printf -- '%s\n' "Sorry! Exporting is not yet supported."
+      add_seperator=false
+      sleep_dot 3
+    ;;
+    # Items
+    (1[a-s])  easy_edit_form+=${input_selection} ;;
+    (*)
+      printf -- '%s\n' "Error! Remember, characters must be entered one at a time! / Error! That is not a valid multi-char code!"
+      add_seperator=false
+      sleep_dot 4
+    ;;
+  esac
+}
+
+color_prompt() {
+  printf -- '%s\n' "Select a color:"
+  printf -- '%s\t\033[1;37m%s\t\033[0;30m%s\t\033[0;31m%s\n' \
+    "Default - 1" "Bold White - 2" "Black - 3" "Red - 4"
+  printf -- '\033[0;32m%s\t\033[0;33m%s\t\033[0;34m%s\t\033[0;35m%s\n' \
+    "Green - 5" "Brown - 6" "Blue - 7" "Purple - 8"
+  printf -- '\033[0;36m%s\t\033[0;37m%s\t\033[1;30m%s\t\033[1;31m%s\n' \
+    "Cyan - 9" "Light Grey - 10" "Dark Grey - 11" "Light Red - 12"
+  printf -- '\033[1;32m%s\t\033[1;33m%s\t\033[1;34m%s\t\033[1;35m%s\n' \
+    "Light Green - 13" "Yellow - 14" "Light Blue - 15" "Light Purple - 16"
+  printf -- '\033[1;372m%s\033[0;37m\n' "Light Cyan - 17"
+  printf -- '%s\n' "Enter corresponding number:"
+  read -r color
+  full_form=""
+  defaultselected=false
+  case "${color}" in
+    (1)   defaultselected=true; colour="Default"; second_seg_active=0 ;;
+    (2)   full_form+="\[\033[1;37m\]"; colour="Bold White"; second_seg_active=0 ;;
+    (3)   full_form+="\[\033[0;30m\]"; colour="Black"; second_seg_active=0 ;;
+    (4)   full_form+="\[\033[0;31m\]"; colour="Red"; second_seg_active=0 ;;
+    (5)   full_form+="\[\033[0;32m\]"; colour="Green"; second_seg_active=0 ;;
+    (6)   full_form+="\[\033[0;33m\]"; colour="Brown"; second_seg_active=0 ;;
+    (7)   full_form+="\[\033[0;34m\]"; colour="Blue"; second_seg_active=0 ;;
+    (8)   full_form+="\[\033[0;35m\]"; colour="Purple"; second_seg_active=0 ;;
+    (9)   full_form+="\[\033[0;36m\]"; colour="Cyan"; second_seg_active=0 ;;
+    (10)  full_form+="\[\033[0;37m\]"; colour="Light Grey"; second_seg_active=0 ;;
+    (11)  full_form+="\[\033[1;30m\]"; colour="Dark Grey"; second_seg_active=0 ;;
+    (12)  full_form+="\[\033[1;31m\]"; colour="Light Red"; second_seg_active=0 ;;
+    (13)  full_form+="\[\033[1;32m\]"; colour="Light Green"; second_seg_active=0 ;;
+    (14)  full_form+="\[\033[1;33m\]"; colour="Yellow"; second_seg_active=0 ;;
+    (15)  full_form+="\[\033[1;34m\]"; colour="Light Blue"; second_seg_active=0 ;;
+    (16)  full_form+="\[\033[1;35m\]"; colour="Light Purple"; second_seg_active=0 ;;
+    (17)  full_form+="\[\033[1;36m\]"; colour="Light Cyan"; second_seg_active=0 ;;
+    (*) 
+      printf -- '%s\n' "Sorry, ${color} was not an option." >&2
+      sleep_dot 3
+    ;;
+  esac
+}
+
 # Updates the variable 'full_form' drawing info from the variable 'easy_edit_form'
 update_full_form () {
   printf -- '%s\n' "Updating full form."
   var_for_cutting=1
   while (( var_for_cutting <= size_of_easy_edit_form )); do
-    check_this_out=$(printf -- '%s\n' $easy_edit_form | cut -d '%' -f $var_for_cutting)
+    check_this_out=$(printf -- '%s\n' "${easy_edit_form}" | cut -d '%' -f ${var_for_cutting})
     case "${check_this_out}" in
       # Items
       (1a)  full_form+="\[\a\]" ;;
@@ -144,7 +227,7 @@ update_display_form () {
   display_form=""
   extra_message=""
   while (( var_for_cutting <= size_of_easy_edit_form )); do
-    check_this_out=$(printf -- '%s\n' $easy_edit_form | cut -d '%' -f $var_for_cutting)
+    check_this_out=$(printf -- '%s\n' "${easy_edit_form}" | cut -d '%' -f ${var_for_cutting})
     case "${check_this_out}" in
       # Items
       (1a)     
@@ -195,47 +278,8 @@ while [[ "${begin_writing}" = "no" ]]; do
     add_seperator=true
     header
     usage
-    printf -- '%s\n' "Enter a single character, or a two character command/item: "
-    read -r input_selection
-    case "${input_selection}" in
-      (%)
-        printf -- '%s\n' "I'm sorry, you cannot use a '%' sign. Any other character is allowed!"
-        add_seperator=false
-        sleep_dot 3
-      ;;
-      (sp)  easy_edit_form+=" " ;;
-      # Commands
-      (q!) die "Program has been manually terminated." ;;
-      (rm) 
-        if ((size_of_easy_edit_form>0)); then
-          size_of_easy_edit_form=$((size_of_easy_edit_form-1))
-          easy_edit_form=$(printf -- '%s\n' "${easy_edit_form}" | cut -d '%' -f 1-${size_of_easy_edit_form})
-          # Here, the size is reduced again, but the loss is made of for in the 'if' right below this 'case'
-          size_of_easy_edit_form=$((size_of_easy_edit_form-1)) 
-          else
-          printf -- '%s\n' "There is nothing to delete!"
-          add_seperator=false
-          sleep_dot 3
-        fi
-      ;;
-      (wr)
-        main_seg_active=0
-        add_seperator=false
-      ;;
-      (ex)
-        printf -- '%s\n' "Sorry! Exporting is not yet supported."
-        add_seperator=false
-        sleep_dot 3
-      ;;
-      # Items
-      (1[a-s])  easy_edit_form+=$input_selection ;;
-      (*)
-        printf -- '%s\n' "Error! Remember, characters must be entered one at a time! / Error! That is not a valid multi-char code!"
-        add_seperator=false
-        sleep_dot 4
-      ;;
-    esac
-    if [[ "$add_seperator" == "true" ]]; then
+    char_prompt
+    if [[ "${add_seperator}" = "true" ]]; then
       easy_edit_form+="%"
       size_of_easy_edit_form=$((size_of_easy_edit_form+1))
     fi
@@ -244,83 +288,38 @@ while [[ "${begin_writing}" = "no" ]]; do
   # Here the color is choosen.
   update_display_form
   second_seg_active=1
-  while [[ "$second_seg_active" == 1 ]]; do
+  while [[ "${second_seg_active}" = 1 ]]; do
     header
-    printf -- '%s\n' "Select a color:"
-    printf -- '%s\t\033[1;37m%s\t\033[0;30m%s\t\033[0;31m%s\n' \
-      "Default - 1" "Bold White - 2" "Black - 3" "Red - 4"
-    printf -- '\033[0;32m%s\t\033[0;33m%s\t\033[0;34m%s\t\033[0;35m%s\n' \
-      "Green - 5" "Brown - 6" "Blue - 7" "Purple - 8"
-    printf -- '\033[0;36m%s\t\033[0;37m%s\t\033[1;30m%s\t\033[1;31m%s\n' \
-      "Cyan - 9" "Light Grey - 10" "Dark Grey - 11" "Light Red - 12"
-    printf -- '\033[1;32m%s\t\033[1;33m%s\t\033[1;34m%s\t\033[1;35m%s\n' \
-      "Light Green - 13" "Yellow - 14" "Light Blue - 15" "Light Purple - 16"
-    printf -- '\033[1;372m%s\033[0;37m\n' "Light Cyan - 17"
-    printf -- '%s\n' "Enter corresponding number:"
-    read -r color
-    full_form=""
-    defaultselected=false
-    case "${color}" in
-      (1)   defaultselected=true; colour="Default"; second_seg_active=0 ;;
-      (2)   full_form+="\[\033[1;37m\]"; colour="Bold White"; second_seg_active=0 ;;
-      (3)   full_form+="\[\033[0;30m\]"; colour="Black"; second_seg_active=0 ;;
-      (4)   full_form+="\[\033[0;31m\]"; colour="Red"; second_seg_active=0 ;;
-      (5)   full_form+="\[\033[0;32m\]"; colour="Green"; second_seg_active=0 ;;
-      (6)   full_form+="\[\033[0;33m\]"; colour="Brown"; second_seg_active=0 ;;
-      (7)   full_form+="\[\033[0;34m\]"; colour="Blue"; second_seg_active=0 ;;
-      (8)   full_form+="\[\033[0;35m\]"; colour="Purple"; second_seg_active=0 ;;
-      (9)   full_form+="\[\033[0;36m\]"; colour="Cyan"; second_seg_active=0 ;;
-      (10)  full_form+="\[\033[0;37m\]"; colour="Light Grey"; second_seg_active=0 ;;
-      (11)  full_form+="\[\033[1;30m\]"; colour="Dark Grey"; second_seg_active=0 ;;
-      (12)  full_form+="\[\033[1;31m\]"; colour="Light Red"; second_seg_active=0 ;;
-      (13)  full_form+="\[\033[1;32m\]"; colour="Light Green"; second_seg_active=0 ;;
-      (14)  full_form+="\[\033[1;33m\]"; colour="Yellow"; second_seg_active=0 ;;
-      (15)  full_form+="\[\033[1;34m\]"; colour="Light Blue"; second_seg_active=0 ;;
-      (16)  full_form+="\[\033[1;35m\]"; colour="Light Purple"; second_seg_active=0 ;;
-      (17)  full_form+="\[\033[1;36m\]"; colour="Light Cyan"; second_seg_active=0 ;;
-      (*) 
-        printf -- '%s\n' "Sorry, ${color} was not an option." >&2
-        sleep_dot 3
-      ;;
-    esac
+    color_prompt
   done # End of color choosing 'while'
   update_full_form
-  if [[ "$defaultselected" != "true" ]]; then
+  if [[ "${defaultselected}" != "true" ]]; then
     full_form+="\[\033[0m\] "
   fi
   confirm_seg_active=1
-  while [[ "$confirm_seg_active" == 1 ]]; do # This while loop contain the writing confirmation.
+  # This while loop contain the writing confirmation.
+  while [[ "$confirm_seg_active" = 1 ]]; do 
     clear
-    printf -- '%s\n' "
-    --- Command Prompt Editor ---
-    "
+    printf -- '\n%s\n' "--- Command Prompt Editor ---"
     printf -- '%s\n' ""
-    printf -- '%s\n' "Enable command prompt:
-    $display_form
-    With color: $colour
-    (y/n)"
-    read -r write_confirmation
-    case "$write_confirmation" in
-      ([yY]|[yY][eE][sS])
-        confirm_seg_active=0
-        begin_writing=yes
-      ;;
-      ([nN]|[nN][oO]) 
-        confirm_seg_active=0
-        clear
-        printf -- '%s\n' "What would you like to do?
-          - return to the editor (Enter '1'.)
-          - quit without saving (Enter anything else.)"
-        read -r return_or_quit
-        if [[ "$return_or_quit" == 1 ]]; then
-          printf -- '%s\n' "Returning to editor..."
-        else
-          printf -- '%s\n' "Program was manually terminated."
-          exit
-        fi
-      ;;
-      (*) : ;;  
-    esac
+    printf -- '%s\n' "Enable command prompt:" "${display_form}" "With color: ${colour}"
+    if confirm; then
+      confirm_seg_active=0
+      begin_writing=yes
+    else
+      confirm_seg_active=0
+      clear
+      printf -- '%s\n' "What would you like to do?
+        - return to the editor (Enter '1'.)
+        - quit without saving (Enter anything else.)"
+      read -r return_or_quit
+      if [[ "${return_or_quit}" = 1 ]]; then
+        printf -- '%s\n' "Returning to editor..."
+      else
+        printf -- '%s\n' "Program was manually terminated."
+        exit
+      fi
+    fi
   done
 done
 
@@ -330,7 +329,7 @@ bashrc=$(less ~/.bashrc)
 bashrc+="
 # ---Added by the custom command prompt editor---"
 bashrc+="
-PS1='$full_form'
+PS1='${full_form}'
 export PS1"
 bashrc+="
 # ---End added by the custom command prompt editor---"
