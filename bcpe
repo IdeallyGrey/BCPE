@@ -116,7 +116,7 @@ char_prompt() {
         easy_edit_form=$(printf -- '%s\n' "${easy_edit_form}" | cut -d '%' -f 1-${size_of_easy_edit_form})
         # Here, the size is reduced again, but the loss is made of for in the 'if' right below this 'case'
         size_of_easy_edit_form=$((size_of_easy_edit_form-1)) 
-        else
+      else
         printf -- '%s\n' "There is nothing to delete!"
         add_seperator=false
         sleep_dot 3
