@@ -18,7 +18,7 @@ We're sure you'll find this handy!
 # Instructions
 Setup:
 
-Find and download the latest release (It should be bellow the "About" section on GitHub), and then extract the contents (If you downloaded the .tar.gz version, this can be done with the command "tar -xvf [filename]"). Enter the new directory, where you should see a file labled "bcpe.sh". Start the editor by running "./bcpe.sh". 
+Find and download the latest release (It should be bellow the "About" section on GitHub), and then extract the contents (If you downloaded the .tar.gz version, this can be done with the command "tar -xvf [filename]"). Enter the new directory, where you should see a file labled "bcpe". Start the editor by running "./bcpe". 
 
 Once in the editor:
 
