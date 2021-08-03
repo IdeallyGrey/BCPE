@@ -133,6 +133,7 @@ char_prompt() {
     ;;
     # Items
     (1[a-s])  easy_edit_form+=${input_selection} ;;
+    (?)  easy_edit_form+=${input_selection} ;;
     (*)
       printf -- '%s\n' "Error! Remember, characters must be entered one at a time! / Error! That is not a valid multi-char code!"
       add_seperator=false
