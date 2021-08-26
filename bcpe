@@ -1,13 +1,24 @@
 #!/bin/bash
 
+#    Copyright (C) 2021  Lukas Hamm
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
 # An editor to design custom command prompts.
-# Quick overview of the code: Since there are certain ASCII codes that only work 
-# in the command prompt, and since some 'items' have different lengths of characters, 
-# three main string variables exist. One is used to store the design while in the 
-# editor (easy_edit_form), another one to display your design in the editor 
+# Quick overview of the code: Since there are certain ASCII codes that only work
+# in the command prompt, and since some 'items' have different lengths of characters,
+# three main string variables exist. One is used to store the design while in the
+# editor (easy_edit_form), another one to display your design in the editor
 # (display_form), and finally the actual string that is saved (full_form).
 # A design is saved by adding a few lines to the end of your .bashrc file.
-# Since a .bashrc file is rather useful, it is backed up prior to saving in case 
+# Since a .bashrc file is rather useful, it is backed up prior to saving in case
 # something goes wrong, and is saved as '.bashrc_backup_made_by_bcpe'.
 
 # Some variables
@@ -110,12 +121,12 @@ char_prompt() {
     (sp)  easy_edit_form+=" " ;;
     # Commands
     (q!) die "Program has been manually terminated." ;;
-    (rm) 
+    (rm)
       if ((size_of_easy_edit_form>0)); then
         size_of_easy_edit_form=$((size_of_easy_edit_form-1))
         easy_edit_form=$(printf -- '%s\n' "${easy_edit_form}" | cut -d '%' -f 1-${size_of_easy_edit_form})
         # Here, the size is reduced again, but the loss is made of for in the 'if' right below this 'case'
-        size_of_easy_edit_form=$((size_of_easy_edit_form-1)) 
+        size_of_easy_edit_form=$((size_of_easy_edit_form-1))
       else
         printf -- '%s\n' "There is nothing to delete!"
         add_seperator=false
@@ -175,7 +186,7 @@ color_prompt() {
     (15)  full_form+="\[\033[1;34m\]"; colour="Light Blue"; second_seg_active=0 ;;
     (16)  full_form+="\[\033[1;35m\]"; colour="Light Purple"; second_seg_active=0 ;;
     (17)  full_form+="\[\033[1;36m\]"; colour="Light Cyan"; second_seg_active=0 ;;
-    (*) 
+    (*)
       printf -- '%s\n' "Sorry, ${color} was not an option." >&2
       sleep_dot 3
     ;;
@@ -219,7 +230,7 @@ update_full_form () {
     var_for_cutting=$((var_for_cutting+1))
   done
   # full_form+=" "
-}  
+}
 
 # Updates the variable 'display_form' with info from variable 'easy_edit_form'
 update_display_form () {
@@ -231,7 +242,7 @@ update_display_form () {
     check_this_out=$(printf -- '%s\n' "${easy_edit_form}" | cut -d '%' -f ${var_for_cutting})
     case "${check_this_out}" in
       # Items
-      (1a)     
+      (1a)
         display_form+="(Non-visable beep char.)"
         extra_message+="Should play beep. May be supressed on most systems."
       ;;
@@ -270,7 +281,7 @@ fi
 printf -- '%s\n' "If you have not used this editor before, or if you need a refresher, instructions can be found in the README file."
 sleep_dot 4
 begin_writing="no"
-# This while loop contains the editor and the color choosing, and exists in order 
+# This while loop contains the editor and the color choosing, and exists in order
 # to allow someone to return to the editor prior to saving.
 while [[ "${begin_writing}" = "no" ]]; do
   # This while loop contains the bulk of the editor.
@@ -299,7 +310,7 @@ while [[ "${begin_writing}" = "no" ]]; do
   fi
   confirm_seg_active=1
   # This while loop contain the writing confirmation.
-  while [[ "$confirm_seg_active" = 1 ]]; do 
+  while [[ "$confirm_seg_active" = 1 ]]; do
     clear
     printf -- '\n%s\n' "--- Command Prompt Editor ---"
     printf -- '%s\n' ""
