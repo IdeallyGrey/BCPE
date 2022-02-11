@@ -1,3 +1,6 @@
+# Important:
+This is not a stable project. Usage may result in having a messed up command prompt. This can be undone (see bellow). You have been warned.
+
 # Overview
 BCPE stands for Bash Command Prompt Editor. It's meant to be an easy way to spice up your command line, and potentally make it more useful. You can customise your design with 'items'. These include things like the username, machine hostname, current time, number of commands run, and more. You can also choose from 17 different colors. And of course, it's open-source.
 # Examples
@@ -26,7 +29,7 @@ In the editor you may run commands, add characters to your design, or add items 
 
 # To Undo Changes
 (NOTE: You must be logged into the same user that you used the editor with.)
-First, open a text editor of your choice to edit this file: ~/.bashrc
+First, open a text editor of your choice to edit this file: `~/.bashrc`
 
 Next, at the bottom of the file you should see something that looks similar to this (depending on how many times you have run the editor, there may be multiple copies):
 
